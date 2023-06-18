@@ -1,0 +1,85 @@
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+     
+
+
+my_dict = {
+    'height': [151, 174, 138, 186, 128, 136, 179, 163, 152, 131],
+    'weight': [63, 81, 56, 91, 47, 57, 76, 72, 62, 48]
+    
+}
+     
+
+
+df= pd.DataFrame(my_dict)   
+df
+
+
+df.isnull().sum()
+
+
+df.info()
+
+     
+df.describe()
+ 
+
+
+from sklearn.model_selection import train_test_split
+     
+x=df[['height']]
+x
+
+
+
+
+y=df[['weight']]
+y
+
+
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_state = 10)
+x_train 
+
+
+x_test
+     
+
+from sklearn.linear_model import LinearRegression
+model=LinearRegression()
+
+     
+
+model
+     
+
+
+model.fit(x_train, y_train)
+     
+
+
+y_pred=model.predict(x_test)
+
+
+
+
+
+# Plot the scatter plot
+plt.scatter(x_test, y_test, color='blue')
+
+# Add the regression line
+plt.plot(x_test, y_pred, color='red')
+
+# Add axis labels and title
+plt.xlabel('Height (cm)')
+plt.ylabel('Weight (kg)')
+plt.title('Linear Regression Model')
+
+# Display the plot
+plt.show()
+
+
+
+
+model.predict([[180]])

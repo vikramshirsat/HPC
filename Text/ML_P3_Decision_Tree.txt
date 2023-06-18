@@ -1,0 +1,108 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt 
+
+dataset = {
+    'Id':[1,2,3,4,5,6,7,8,9,10,11,12,13,14],
+    'Age':['<21','<21','21-35','>35','>35','>35','21-35','<21','<21','>35','<21','21-35','21-35','>35'],
+    'Income':['High','High','High','Medium','Low','Low','Low','Medium','Low','Medium','Medium','Medium','High','Medium'],
+    'Gender':['Male','Male','Male','Male','Female','Female','Female','Male','Female','Female','Female','Male','Female','Male'],
+    'MaritalStatus':['Single','Married','Single','Single','Single','Married','Married','Single','Married','Single','Married','Married','Single','Married'],
+    'Buys':['No','No','Yes','Yes','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','No']
+}
+
+df = pd.DataFrame(dataset,columns=['Id','Age','Income','Gender','MaritalStatus','Buys'])
+
+
+
+
+
+
+df['Age']
+
+
+
+df[['Age']]
+
+
+
+df['Income']
+
+
+
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+df['Age'] = le.fit_transform(df['Age'])
+df['Income'] = le.fit_transform(df['Income'])
+df['Gender'] = le.fit_transform(df['Gender'])
+df['MaritalStatus'] = le.fit_transform(df['MaritalStatus'])
+df['Buys'] = le.fit_transform(df['Buys'])
+
+
+
+df['Age']
+
+     
+
+df['Income']
+
+    
+
+df['Income'].unique()
+
+
+
+x = df.drop(['Buys'], axis=1)
+x
+
+
+
+y = df['Buys']
+y
+
+
+
+from sklearn.tree import DecisionTreeClassifier
+
+clf = DecisionTreeClassifier()
+
+     
+
+clf = clf.fit(x, y)
+     
+
+
+clf.tree_.feature[0] #returns the index of the root node
+
+
+
+x.columns[clf.tree_.feature[0]] #returns the feature name of the root node
+
+
+
+
+from sklearn.preprocessing import LabelEncoder
+le = LabelEncoder()
+
+# Fit LabelEncoder on categorical columns of the training data
+df['Age'] = le.fit_transform(df['Age'])
+df['Income'] = le.fit_transform(df['Income'])
+df['Gender'] = le.fit_transform(df['Gender'])
+df['MaritalStatus'] = le.fit_transform(df['MaritalStatus'])
+
+# Encode categorical columns of the test data using the same LabelEncoder object
+test_data = pd.DataFrame({'Age': ['<21'], 'Income': ['Low'], 'Gender': ['Female'], 'MaritalStatus': ['Married']})
+test_data['Age'] = le.transform(test_data['Age'])
+test_data['Income'] = le.transform(test_data['Income'])
+test_data['Gender'] = le.transform(test_data['Gender'])
+test_data['MaritalStatus'] = le.transform(test_data['MaritalStatus'])
+
+
+
+
+# Visualize the decision tree
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+plt.figure(figsize=(15, 10))
+plot_tree(clf, filled=True, rounded=True, feature_names=X.columns, class_names=['No', 'Yes'])
+plt.show()

@@ -1,0 +1,90 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+     
+
+
+# Define the data points
+data_points = np.array([[0.1, 0.6],
+                       [0.15, 0.71],
+                       [0.08, 0.9],
+                       [0.16, 0.85],
+                       [0.2, 0.3],
+                       [0.25, 0.5],
+                       [0.24, 0.1],
+                       [0.3, 0.2]])
+     
+
+
+
+
+# Define the initial centroids
+initial_centroids = np.array([[0.1, 0.6],
+                              [0.3, 0.2]])
+
+
+     
+
+
+# Perform k-means clustering
+kmeans = KMeans(n_clusters=2, init=initial_centroids, n_init=1)
+kmeans.fit(data_points)
+
+
+
+
+# Retrieve the cluster labels for each data point
+cluster_labels = kmeans.labels_
+
+# Retrieve the updated centroids
+updated_centroids = kmeans.cluster_centers_
+
+
+
+     
+
+# Answering the questions:
+
+# 1] Which cluster does P6 belong to?
+point_p6 = np.array([0.25, 0.5])
+cluster_p6 = kmeans.predict([point_p6])[0]
+cluster_p6 += 1  # Adding 1 to match the cluster numbering in the question
+print("1] P6 belongs to Cluster C" + str(cluster_p6))
+
+
+
+
+
+# 2] What is the population of cluster around m2?
+cluster_m2 = 2  # Cluster C2
+population_m2 = np.sum(cluster_labels == (cluster_m2 - 1))
+print("2] The population of cluster around m2 is", population_m2)
+
+
+
+
+     
+# 3] What is the updated value of m1 and m2?
+updated_m1 = updated_centroids[0]
+updated_m2 = updated_centroids[1]
+print("3] The updated value of m1 is", updated_m1)
+print("   The updated value of m2 is", updated_m2)
+
+
+
+
+
+# Scatter plot of the data points
+plt.scatter(data_points[:, 0], data_points[:, 1], c=cluster_labels, cmap='viridis', label='Data Points')
+
+# Scatter plot of the updated centroids
+plt.scatter(updated_centroids[:, 0], updated_centroids[:, 1], color='red', marker='X', label='Updated Centroids')
+
+# Plotting the annotation for P6
+plt.annotate('P6', (0.25, 0.5), textcoords="offset points", xytext=(0, 10), ha='center')
+
+plt.legend()
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('K-Means Clustering')
+plt.show()
